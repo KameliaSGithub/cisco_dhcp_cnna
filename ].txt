@@ -1,0 +1,91 @@
+
+
+
+
+
+Enter configuration commands, one per line.  End with CNTL/Z.
+ip(config)#interface FastEthernet0/0
+ip(config-if)#ip dhcp pool 192.168.1.1
+ip(dhcp-config)#default-router 192.168.1.1
+ip(dhcp-config)#dns-server 8.8.8.8
+ip(dhcp-config)#
+
+
+ip>
+ip>en
+ip#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+ip(config)#host
+% Incomplete command.
+ip(config)#hostname dhcp-server
+dhcp-server(config)#int f0/0
+dhcp-server(config-if)#ip add 192.168.1.1 255.255.255.0
+% 192.168.1.0 overlaps with FastEthernet0/1
+dhcp-server(config-if)#no sh
+dhcp-server(config-if)#int fo/1
+                        ^
+% Invalid input detected at '^' marker.
+	
+dhcp-server(config-if)#int f0/1
+dhcp-server(config-if)#ip add 192.168.2.1 255.255.255.0
+% 192.168.2.0 overlaps with FastEthernet0/0
+dhcp-server(config-if)#no sh
+dhcp-server(config-if)#exit
+dhcp-server(config)#do sh ip int br
+Interface              IP-Address      OK? Method Status                Protocol 
+FastEthernet0/0        192.168.2.1     YES manual up                    up 
+FastEthernet0/1        192.168.1.1     YES manual up                    up 
+Vlan1                  unassigned      YES unset  administratively down down
+dhcp-server(config)#ip dhcp ex
+% Incomplete command.
+dhcp-server(config)#ip dhcp xcluded-address 192.168.1.1
+                            ^
+% Invalid input detected at '^' marker.
+	
+dhcp-server(config)#ip dhcp excluded-address 192.168.1.1
+dhcp-server(config)#ip dhcp excluded-address 192.168.2.1
+dhcp-server(config)#ip dhcp pool 192.168.1.1
+dhcp-server(dhcp-config)#network 192.168.1.0 255.255.255.0
+dhcp-server(dhcp-config)#default-router 192.168.1.1
+dhcp-server(dhcp-config)#dns-server 8.8.8.8
+dhcp-server(dhcp-config)#exit
+dhcp-server(config)#ip dns pool 192.168.2.1
+                        ^
+% Invalid input detected at '^' marker.
+	
+dhcp-server(config)#ip dhcp pool 192.168.2.1
+dhcp-server(dhcp-config)#network 192.168.2.0 255.255.255.0
+dhcp-server(dhcp-config)#defalt-router 192.168.2.1
+                             ^
+% Invalid input detected at '^' marker.
+	
+dhcp-server(dhcp-config)#default-router 192.168.2.1
+dhcp-server(dhcp-config)#dns-server 8.8.8.8
+dhcp-server(dhcp-config)#
+
+
+
+
+
+
+
+
+dhcp-server con0 is now available
+
+
+
+
+
+
+Press RETURN to get started.
+
+
+
+
+
+
+
+
+
+
+
